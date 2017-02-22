@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Movie>
+
+<div>Total movies: @Model.Count()</div>
+<table>
+    @foreach (var movie in Model)
+    {
+        <tr>
+            <td>@movie.Id</td>
+            <td>@movie.Title</td>
+            <td>@movie.Length</td>
+            <td>@movie.ReleaseOn.Year</td>
+            <td>
+                <a asp-controller="Home" asp-action="Details"
+                    asp-route-id="@movie.Id">Details</a>
+
+            </td>
+        </tr>   
+    }
+</table>

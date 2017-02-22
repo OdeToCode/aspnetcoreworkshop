@@ -5,6 +5,8 @@ using AtTheMovies.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,14 +33,15 @@ namespace AtTheMovies
         {
             services.AddMvc();
             services.AddOptions();
-            services.Configure<GreeterOptions>(Configuration.GetSection("Greeter"));
+            services.Configure<GreeterOptions>(
+                Configuration.GetSection("Greeter"));
             services.AddSingleton(Configuration);
+            services.AddScoped<IMovieDataStore, InMemoryDataStore>();
             services.AddSingleton<IGreeter, Greeter>();
         }
 
         public void Configure(IApplicationBuilder app, 
-                              IHostingEnvironment env,
-                              IGreeter greeter)
+                              IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -49,8 +52,8 @@ namespace AtTheMovies
                 app.UseExceptionHandler("/error/index");
             }
            
-            app.UseStaticFiles();          
-            app.UseMvcWithDefaultRoute();                   
+            app.UseStaticFiles();
+            app.UseMvc();
         }
     }
 }

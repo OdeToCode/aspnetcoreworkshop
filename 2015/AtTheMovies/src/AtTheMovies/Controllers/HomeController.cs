@@ -2,24 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AtTheMovies.Models;
 using AtTheMovies.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AtTheMovies.Controllers
 {
-    public class HomeController 
+    [Route("[controller]/[action]"), Route("")]    
+    public class HomeController : Controller
     {
-        private readonly IGreeter _greeter;
+        private readonly IMovieDataStore _movies;
 
-        public HomeController(IGreeter greeter)
+        public HomeController(IMovieDataStore movies)
         {
-            _greeter = greeter;
+            _movies = movies;
+        }
+        
+        [HttpGet]
+        public IActionResult Index()
+        {                               
+            var model = _movies.GetAll();
+            return View(model);
         }
 
-        public string Index()
-        {
-            return _greeter.FetchGreeting();
 
+        [Route("{id}")]
+        public IActionResult Details(int id)
+        {
+            var model = _movies.GetById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return View(model);
         }
     }
 }
