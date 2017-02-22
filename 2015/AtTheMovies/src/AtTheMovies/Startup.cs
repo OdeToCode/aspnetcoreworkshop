@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AtTheMovies.Data;
 using AtTheMovies.Middleware;
 using AtTheMovies.Services;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using GreeterOptions = AtTheMovies.Services.GreeterOptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace AtTheMovies
 {
@@ -36,7 +38,14 @@ namespace AtTheMovies
             services.Configure<GreeterOptions>(
                 Configuration.GetSection("Greeter"));
             services.AddSingleton(Configuration);
-            services.AddScoped<IMovieDataStore, InMemoryDataStore>();
+
+            services.AddEntityFrameworkSqlServer()
+                .AddDbContext<MovieDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    
+
+
+            services.AddScoped<IMovieDataStore, SqlMovieStore>();
             services.AddSingleton<IGreeter, Greeter>();
         }
 

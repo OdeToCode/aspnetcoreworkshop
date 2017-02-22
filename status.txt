@@ -3,8 +3,8 @@ scott@OdeToCode.com
 
 ASP.NET Core Workshop
 
-Now: lunch
-Next: 13:30
+Now: break
+Next: 15:15
 
 Code will go here: https://github.com/OdeToCode/aspnetcoreworkshop
 Slides: https://dl.dropboxusercontent.com/u/79231895/aspnetcore.zip

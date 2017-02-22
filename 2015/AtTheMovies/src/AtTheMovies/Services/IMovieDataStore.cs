@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AtTheMovies.Data;
 using AtTheMovies.Models;
 
 namespace AtTheMovies.Services
@@ -12,9 +13,29 @@ namespace AtTheMovies.Services
         Movie GetById(int id);
     }
 
-    public class InMemoryDataStore : IMovieDataStore
+    public class SqlMovieStore : IMovieDataStore
     {
-        public InMemoryDataStore()
+        private readonly MovieDbContext _context;
+
+        public SqlMovieStore(MovieDbContext context)
+        {
+            _context = context;
+        }
+
+        public IEnumerable<Movie> GetAll()
+        {
+            return _context.Movies.OrderByDescending(m => m.ReleaseOn.Year);
+        }
+
+        public Movie GetById(int id)
+        {
+            return _context.Movies.FirstOrDefault(m => m.Id == id);
+        }
+    }
+
+    public class InMemoryMovieStore : IMovieDataStore
+    {
+        public InMemoryMovieStore()
         {
             movies = new List<Movie>()
             {
