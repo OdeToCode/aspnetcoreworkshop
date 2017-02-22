@@ -1,0 +1,10 @@
+Scott Allen
+scott@OdeToCode.com
+
+ASP.NET Core Workshop
+
+Now: ---
+Next: 09:00 Start
+
+Code will go here: https://github.com/OdeToCode/aspnetcoreworkshop
+Slides: https://dl.dropboxusercontent.com/u/79231895/aspnetcore.zip
