@@ -1,4 +1,7 @@
-﻿using AtTheMovies.Services;
+﻿using System;
+using System.Threading.Tasks;
+using AtTheMovies.Middleware;
+using AtTheMovies.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,12 +39,36 @@ namespace AtTheMovies
         {
             if (env.IsDevelopment())
             {
-               app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/error/index");
             }
 
+           
             app.UseStaticFiles();
-            
+
+            var options = new GreeterOptions
+            {
+                Path = "/greeter",
+                Message = "A custom greeting message"
+            };
+            app.UseGreeter(options);
+
             app.UseMvcWithDefaultRoute();
+
+            app.Use(next =>
+            {
+                return context =>
+                {
+                    if (context.Request.Path.StartsWithSegments("/oops"))
+                    {
+                        throw new InvalidOperationException("oops!");
+                    }
+                    return next(context);
+                };
+            });
 
             app.Run(async (context) =>
             {               
