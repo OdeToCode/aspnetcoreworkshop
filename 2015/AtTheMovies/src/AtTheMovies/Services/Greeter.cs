@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace AtTheMovies.Services
 {
@@ -7,19 +8,24 @@ namespace AtTheMovies.Services
         string FetchGreeting();
     }
 
+    public class GreeterOptions
+    {
+        public string Message { get; set; }
+    }
 
     public class Greeter : IGreeter
     {
-        private readonly IConfiguration _configuration;
+        private readonly GreeterOptions _options;
 
-        public Greeter(IConfiguration configuration)
+        public Greeter(IOptions<GreeterOptions> optionsAccessor)
         {
-            _configuration = configuration;
+            _options = optionsAccessor.Value;            
         }
 
         public string FetchGreeting()
         {
-            return _configuration["Greeter:Message"];
+            
+            return _options.Message;
         }
     }
 }

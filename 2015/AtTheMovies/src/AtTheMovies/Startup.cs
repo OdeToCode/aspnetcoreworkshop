@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using GreeterOptions = AtTheMovies.Services.GreeterOptions;
 
 namespace AtTheMovies
 {
@@ -29,6 +30,8 @@ namespace AtTheMovies
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddOptions();
+            services.Configure<GreeterOptions>(Configuration.GetSection("Greeter"));
             services.AddSingleton(Configuration);
             services.AddSingleton<IGreeter, Greeter>();
         }
@@ -45,35 +48,9 @@ namespace AtTheMovies
             {
                 app.UseExceptionHandler("/error/index");
             }
-
            
-            app.UseStaticFiles();
-
-            var options = new GreeterOptions
-            {
-                Path = "/greeter",
-                Message = "A custom greeting message"
-            };
-            app.UseGreeter(options);
-
-            app.UseMvcWithDefaultRoute();
-
-            app.Use(next =>
-            {
-                return context =>
-                {
-                    if (context.Request.Path.StartsWithSegments("/oops"))
-                    {
-                        throw new InvalidOperationException("oops!");
-                    }
-                    return next(context);
-                };
-            });
-
-            app.Run(async (context) =>
-            {               
-                await context.Response.WriteAsync(greeter.FetchGreeting());
-            });            
+            app.UseStaticFiles();          
+            app.UseMvcWithDefaultRoute();                   
         }
     }
 }
