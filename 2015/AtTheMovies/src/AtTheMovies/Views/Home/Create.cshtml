@@ -1,0 +1,29 @@
+﻿@model Movie
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Create a Movie</h2>
+
+<form method="post">
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title"/>
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div>
+        <label asp-for="ReleaseOn"></label>
+        <input asp-for="ReleaseOn"/>
+        <span asp-validation-for="ReleaseOn"></span>
+    </div>
+    <div>
+        <label asp-for="Length"></label>
+        <input asp-for="Length"/>
+        <span asp-validation-for="Length"></span>
+    </div>
+    <div>
+        <input type="submit" value="Save!" />
+    </div>
+</form>

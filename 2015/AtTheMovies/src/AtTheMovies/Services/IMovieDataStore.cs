@@ -11,6 +11,9 @@ namespace AtTheMovies.Services
     {
         IEnumerable<Movie> GetAll();
         Movie GetById(int id);
+        Movie Add(Movie newMovie);
+
+        int Commit();
     }
 
     public class SqlMovieStore : IMovieDataStore
@@ -20,6 +23,17 @@ namespace AtTheMovies.Services
         public SqlMovieStore(MovieDbContext context)
         {
             _context = context;
+        }
+
+        public int Commit()
+        {
+            return _context.SaveChanges();
+        }
+
+        public Movie Add(Movie newMovie)
+        {
+            _context.Movies.Add(newMovie);
+            return newMovie;
         }
 
         public IEnumerable<Movie> GetAll()
@@ -33,7 +47,7 @@ namespace AtTheMovies.Services
         }
     }
 
-    public class InMemoryMovieStore : IMovieDataStore
+  /*   public class InMemoryMovieStore : IMovieDataStore
     {
         public InMemoryMovieStore()
         {
@@ -58,4 +72,5 @@ namespace AtTheMovies.Services
 
         private static List<Movie> movies;
     }
+    */
 }

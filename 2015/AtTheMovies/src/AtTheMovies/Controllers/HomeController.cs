@@ -27,6 +27,24 @@ namespace AtTheMovies.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Movie newMovie)
+        {
+            if (ModelState.IsValid)
+            {
+                _movies.Add(newMovie);
+                _movies.Commit();
+                return RedirectToAction("Details", new {id = newMovie.Id});
+            }
+            return View(newMovie);
+        }
+
         [Route("{id}")]
         public IActionResult Details(int id)
         {
