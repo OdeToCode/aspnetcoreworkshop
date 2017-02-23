@@ -10,7 +10,7 @@
             <td>@movie.Length</td>
             <td>@movie.ReleaseOn.Year</td>
             <td>
-                <a asp-controller="Home" asp-action="Details"
+                <a asp-controller="Movies" asp-action="Details"
                    asp-route-id="@movie.Id">Details</a>
 
             </td>
@@ -20,6 +20,7 @@
 
 <div>
     
-    <a asp-action="Create">Create a new movie</a>
+    <a asp-controller="Movies" 
+       asp-action="Create">Create a new movie</a>    
 
 </div>

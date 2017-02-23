@@ -3,8 +3,8 @@ scott@OdeToCode.com
 
 ASP.NET Core Workshop
 
-Now: work time?
-Next: 9:00 am
+Now: break
+Next: 10:30
 
 Code will go here: https://github.com/OdeToCode/aspnetcoreworkshop
 Slides: https://dl.dropboxusercontent.com/u/79231895/aspnetcore.zip
